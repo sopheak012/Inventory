@@ -1,4 +1,3 @@
-import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { removeScratcher, buyScratcher } from "../features/scratcherSlice";
 import styled from "styled-components";
@@ -102,7 +101,9 @@ const ScratcherList = () => {
         {scratchers.map((scratcher) => (
           <Card
             key={scratcher.scratcherID}
-            onClick={() => handleBuyScratcher(scratcher.scratcherID)}
+            onClick={() => {
+              handleBuyScratcher(scratcher.scratcherID);
+            }}
           >
             <TopBar>
               <Heading>Scratcher ID: {scratcher.scratcherID}</Heading>
