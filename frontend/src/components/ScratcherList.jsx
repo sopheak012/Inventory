@@ -66,14 +66,11 @@ const Heading = styled.h1`
   font-family: "Helvetica Neue", Arial, sans-serif;
 `;
 
-const TotalCost = styled.p`
+const TodayEarnings = styled.h2`
   font-weight: bold;
   margin-top: 20px;
-`;
-
-const TotalEarning = styled.p`
-  font-weight: bold;
-  margin-top: 20px;
+  font-size: 24px; /* Adjust the font size as needed */
+  text-align: center;
 `;
 
 const ScratcherList = () => {
@@ -81,9 +78,6 @@ const ScratcherList = () => {
     state.scratcher.scratcher
       .slice()
       .sort((a, b) => a.scratcherID - b.scratcherID)
-  );
-  const totalScratcherCost = useSelector(
-    (state) => state.scratcher.totalScratcherCost
   );
   const totalEarning = useSelector((state) => state.scratcher.totalEarning);
   const dispatch = useDispatch();
@@ -98,10 +92,9 @@ const ScratcherList = () => {
 
   return (
     <div>
-      <TotalCost>
-        Total Scratcher Cost: ${totalScratcherCost.toFixed(2)}
-      </TotalCost>
-      <TotalEarning>Total Earnings: ${totalEarning.toFixed(2)}</TotalEarning>
+      <TodayEarnings>
+        Today's Earnings: ${totalEarning.toFixed(2)}
+      </TodayEarnings>
       <Container>
         {scratchers.map((scratcher) => (
           <Card

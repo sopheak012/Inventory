@@ -1,3 +1,4 @@
+// scratcherSlice.js
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialScratcherState = {
@@ -87,10 +88,24 @@ const scratcherSlice = createSlice({
         );
       }
     },
+    clearScratchers: (state) => {
+      // Clear scratchers in Redux
+      state.scratcher = [];
+      state.totalEarning = 0;
+      state.totalScratcherCost = 0;
+
+      // Clear scratchers in localStorage
+      localStorage.removeItem("savedScratchers");
+    },
   },
 });
 
-export const { addScratcher, removeScratcher, buyScratcher, loadScratchers } =
-  scratcherSlice.actions;
+export const {
+  addScratcher,
+  removeScratcher,
+  buyScratcher,
+  loadScratchers,
+  clearScratchers,
+} = scratcherSlice.actions;
 
 export default scratcherSlice.reducer;

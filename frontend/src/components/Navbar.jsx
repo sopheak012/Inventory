@@ -14,7 +14,16 @@ function Navbar() {
             </a>
           </li>
           <li className="nav-item">
+            <a className="nav-link" href="/addScratcher">
+              {" "}
+              {/* Link to the AddScratcher page */}
+              Add Scratcher
+            </a>
+          </li>
+          <li className="nav-item">
             <a className="nav-link" href="/scratchers">
+              {" "}
+              {/* Link to the Scratchers page */}
               Scratchers
             </a>
           </li>
