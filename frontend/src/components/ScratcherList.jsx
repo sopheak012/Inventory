@@ -1,13 +1,13 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { removeScratcher } from "../features/scratcherSlice";
+import { removeScratcher, buyScratcher } from "../features/scratcherSlice";
 import styled from "styled-components";
 
 const Container = styled.div`
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-start; /* Start from the left */
-  gap: 8px; /* Adjust the gap between cards */
+  justify-content: flex-start;
+  gap: 8px;
   width: 100%;
   max-width: 100%;
   padding: 16px;
@@ -15,13 +15,20 @@ const Container = styled.div`
 `;
 
 const Card = styled.div`
-  width: 175px; /* Fixed width for the scratcher cards */
+  width: 175px;
   background: #f0f0f0;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   display: flex;
   flex-direction: column;
   font-family: "Verdana", Arial, sans-serif;
+  cursor: pointer;
+  transition: transform 0.1s; /* Add a transition effect for the press effect */
+  transform-origin: center bottom; /* Set the origin for scaling effect */
+
+  &:active {
+    transform: scale(0.95); /* Scale down when pressed */
+  }
 `;
 
 const TopBar = styled.div`
@@ -32,7 +39,7 @@ const TopBar = styled.div`
   border-top-right-radius: 8px;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: space-between;
 `;
 
 const Content = styled.div`
@@ -59,30 +66,56 @@ const Heading = styled.h1`
   font-family: "Helvetica Neue", Arial, sans-serif;
 `;
 
+const TotalCost = styled.p`
+  font-weight: bold;
+  margin-top: 20px;
+`;
+
+const TotalEarning = styled.p`
+  font-weight: bold;
+  margin-top: 20px;
+`;
+
 const ScratcherList = () => {
   const scratchers = useSelector((state) => state.scratcher.scratcher);
+  const totalScratcherCost = useSelector(
+    (state) => state.scratcher.totalScratcherCost
+  );
+  const totalEarning = useSelector((state) => state.scratcher.totalEarning);
   const dispatch = useDispatch();
 
   const handleRemoveScratcher = (scratcherID) => {
-    // Dispatch the removeScratcher action with the scratcherID
     dispatch(removeScratcher(scratcherID));
   };
 
+  const handleBuyScratcher = (scratcherID) => {
+    dispatch(buyScratcher(scratcherID));
+  };
+
   return (
-    <Container>
-      {scratchers.map((scratcher) => (
-        <Card key={scratcher.scratcherID}>
-          <TopBar>
-            <Heading>Scratcher ID: {scratcher.scratcherID}</Heading>
-          </TopBar>
-          <Content>
-            <p>Name: {scratcher.name}</p>
-            <p>Price: ${scratcher.price}</p>
-            <p>Available: {scratcher.scratcherAmount}</p>
-          </Content>
-        </Card>
-      ))}
-    </Container>
+    <div>
+      <TotalCost>
+        Total Scratcher Cost: ${totalScratcherCost.toFixed(2)}
+      </TotalCost>
+      <TotalEarning>Total Earnings: ${totalEarning.toFixed(2)}</TotalEarning>
+      <Container>
+        {scratchers.map((scratcher) => (
+          <Card
+            key={scratcher.scratcherID}
+            onClick={() => handleBuyScratcher(scratcher.scratcherID)}
+          >
+            <TopBar>
+              <Heading>Scratcher ID: {scratcher.scratcherID}</Heading>
+            </TopBar>
+            <Content>
+              <p>Name: {scratcher.name}</p>
+              <p>Price: ${scratcher.price}</p>
+              <p>Available: {scratcher.scratcherAmount}</p>
+            </Content>
+          </Card>
+        ))}
+      </Container>
+    </div>
   );
 };
 

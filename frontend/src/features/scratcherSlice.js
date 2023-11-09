@@ -26,42 +26,6 @@ const initialScratcherState = {
       price: 10.0,
       scratcherAmount: 300,
     },
-    {
-      scratcherID: 5,
-      name: "Treasure Hunt",
-      price: 2.0,
-      scratcherAmount: 1200,
-    },
-    {
-      scratcherID: 6,
-      name: "Cash Bonanza",
-      price: 4.0,
-      scratcherAmount: 600,
-    },
-    {
-      scratcherID: 7,
-      name: "Double Win",
-      price: 3.5,
-      scratcherAmount: 800,
-    },
-    {
-      scratcherID: 8,
-      name: "Golden Ticket Deluxe",
-      price: 6.0,
-      scratcherAmount: 400,
-    },
-    {
-      scratcherID: 9,
-      name: "Mega Money",
-      price: 5.0,
-      scratcherAmount: 550,
-    },
-    {
-      scratcherID: 10,
-      name: "Fortune Fever",
-      price: 4.5,
-      scratcherAmount: 700,
-    },
   ],
   totalEarning: 0,
   totalScratcherCost: 0,
@@ -72,7 +36,12 @@ const scratcherSlice = createSlice({
   initialState: initialScratcherState,
   reducers: {
     addScratcher: (state, action) => {
+      const { scratcherID, price, scratcherAmount } = action.payload;
       state.scratcher.push(action.payload);
+
+      // Update totalScratcherCost and totalEarning
+      state.totalScratcherCost += price * scratcherAmount;
+      state.totalEarning += price * scratcherAmount;
     },
 
     removeScratcher: (state, action) => {
@@ -80,10 +49,33 @@ const scratcherSlice = createSlice({
       state.scratcher = state.scratcher.filter(
         (scratcher) => scratcher.scratcherID !== scratcherIDToRemove
       );
+
+      // Update totalEarning when removing a scratcher
+      const removedScratcher = state.scratcher.find(
+        (s) => s.scratcherID === scratcherIDToRemove
+      );
+      if (removedScratcher) {
+        state.totalEarning -= removedScratcher.price;
+      }
+    },
+
+    buyScratcher: (state, action) => {
+      const scratcherIDToScratch = action.payload;
+      const scratchedScratcher = state.scratcher.find(
+        (s) => s.scratcherID === scratcherIDToScratch
+      );
+
+      if (scratchedScratcher) {
+        if (scratchedScratcher.scratcherAmount > 0) {
+          scratchedScratcher.scratcherAmount -= 1;
+          state.totalEarning += scratchedScratcher.price;
+        }
+      }
     },
   },
 });
 
-export const { addScratcher, removeScratcher } = scratcherSlice.actions;
+export const { addScratcher, removeScratcher, buyScratcher } =
+  scratcherSlice.actions;
 
 export default scratcherSlice.reducer;
