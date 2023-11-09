@@ -33,8 +33,11 @@ const scratcherSlice = createSlice({
         scratcherAmount,
       });
 
-      // Update only totalScratcherCost when adding a scratcher
-      state.totalScratcherCost += price * scratcherAmount;
+      state.totalScratcherCost = state.scratcher.reduce(
+        (total, scratcher) =>
+          total + scratcher.price * scratcher.scratcherAmount,
+        0
+      );
     },
     removeScratcher: (state, action) => {
       const scratcherIDToRemove = action.payload;
@@ -46,7 +49,11 @@ const scratcherSlice = createSlice({
           (scratcher) => scratcher.scratcherID !== scratcherIDToRemove
         );
         state.totalEarning -= removedScratcher.price;
-        state.totalScratcherCost -= removedScratcher.price;
+        state.totalScratcherCost = state.scratcher.reduce(
+          (total, scratcher) =>
+            total + scratcher.price * scratcher.scratcherAmount,
+          0
+        );
       }
     },
     buyScratcher: (state, action) => {
@@ -58,14 +65,32 @@ const scratcherSlice = createSlice({
         if (scratchedScratcher.scratcherAmount > 0) {
           scratchedScratcher.scratcherAmount -= 1;
           state.totalEarning += scratchedScratcher.price;
-          state.totalScratcherCost -= scratchedScratcher.price;
+          state.totalScratcherCost = state.scratcher.reduce(
+            (total, scratcher) =>
+              total + scratcher.price * scratcher.scratcherAmount,
+            0
+          );
         }
+      }
+    },
+    loadScratchers: (state, action) => {
+      // Load scratchers from localStorage
+      const savedScratchers = JSON.parse(
+        localStorage.getItem("savedScratchers")
+      );
+      if (Array.isArray(savedScratchers)) {
+        state.scratcher = savedScratchers;
+        state.totalScratcherCost = state.scratcher.reduce(
+          (total, scratcher) =>
+            total + scratcher.price * scratcher.scratcherAmount,
+          0
+        );
       }
     },
   },
 });
 
-export const { addScratcher, removeScratcher, buyScratcher } =
+export const { addScratcher, removeScratcher, buyScratcher, loadScratchers } =
   scratcherSlice.actions;
 
 export default scratcherSlice.reducer;

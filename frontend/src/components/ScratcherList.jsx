@@ -1,3 +1,4 @@
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { removeScratcher, buyScratcher } from "../features/scratcherSlice";
 import styled from "styled-components";
@@ -22,11 +23,11 @@ const Card = styled.div`
   flex-direction: column;
   font-family: "Verdana", Arial, sans-serif;
   cursor: pointer;
-  transition: transform 0.1s; /* Add a transition effect for the press effect */
-  transform-origin: center bottom; /* Set the origin for scaling effect */
+  transition: transform 0.1s;
+  transform-origin: center bottom;
 
   &:active {
-    transform: scale(0.95); /* Scale down when pressed */
+    transform: scale(0.95);
   }
 `;
 
@@ -76,7 +77,11 @@ const TotalEarning = styled.p`
 `;
 
 const ScratcherList = () => {
-  const scratchers = useSelector((state) => state.scratcher.scratcher);
+  const scratchers = useSelector((state) =>
+    state.scratcher.scratcher
+      .slice()
+      .sort((a, b) => a.scratcherID - b.scratcherID)
+  );
   const totalScratcherCost = useSelector(
     (state) => state.scratcher.totalScratcherCost
   );
