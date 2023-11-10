@@ -1,10 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { loadScratchers, clearScratchers } from "../features/scratcherSlice";
+import AddScratcherForm from "./AddScratcherForm";
 
 const DataManagement = () => {
   const dispatch = useDispatch();
   const scratchers = useSelector((state) => state.scratcher.scratcher);
+
+  const [showModal, setShowModal] = useState(false);
+
+  const handleShow = () => {
+    setShowModal(true);
+  };
+
+  const handleClose = () => {
+    setShowModal(false);
+  };
 
   const handleSaveScratchers = () => {
     localStorage.setItem("savedScratchers", JSON.stringify(scratchers));
@@ -25,9 +36,13 @@ const DataManagement = () => {
   return (
     <div>
       <h2>Data Management</h2>
+      <button onClick={handleShow}>Add Scratcher</button>{" "}
+      {/* Button to open the modal */}
       <button onClick={handleSaveScratchers}>Save Scratchers</button>
       <button onClick={handleLoadScratchers}>Load Scratchers</button>
       <button onClick={handleClearScratchers}>Clear Scratchers</button>
+      {/* Render the AddScratcherForm component */}
+      <AddScratcherForm showModal={showModal} handleClose={handleClose} />
     </div>
   );
 };
