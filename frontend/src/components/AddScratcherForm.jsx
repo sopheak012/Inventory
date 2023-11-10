@@ -54,15 +54,24 @@ const RadioInput = styled.input`
 const AddScratcherForm = ({ showModal, handleClose }) => {
   const [name, setName] = useState("");
   const [scratchPrice, setScratchPrice] = useState(1); // Default to $1
-  const [scratcherID, setScratcherID] = useState(""); // Input for scratcherID
+  const [scratcherID, setScratcherID] = useState("");
+  const [error, setError] = useState(null);
   const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (!name || !scratcherID) {
+      setError("Name and Scratcher ID are required.");
+      return;
+    }
+
     dispatch(addScratcher({ scratcherID, name, price: scratchPrice }));
     setName("");
     setScratcherID("");
-    handleClose(); // Close the modal after submitting
+    setScratchPrice(1);
+    setError(null);
+    handleClose();
   };
 
   return (
@@ -73,6 +82,7 @@ const AddScratcherForm = ({ showModal, handleClose }) => {
       <Modal.Body>
         <FormContainer>
           <Form onSubmit={handleSubmit}>
+            {error && <p style={{ color: "red" }}>{error}</p>}
             <Label htmlFor="name">Name:</Label>
             <Input
               type="text"
@@ -89,76 +99,18 @@ const AddScratcherForm = ({ showModal, handleClose }) => {
             />
             <Label>Scratcher Price:</Label>
             <RadioGroup>
-              <RadioLabel>
-                <RadioInput
-                  type="radio"
-                  name="price"
-                  value="1"
-                  checked={scratchPrice === 1}
-                  onChange={() => setScratchPrice(1)}
-                />
-                $1
-              </RadioLabel>
-              <RadioLabel>
-                <RadioInput
-                  type="radio"
-                  name="price"
-                  value="2"
-                  checked={scratchPrice === 2}
-                  onChange={() => setScratchPrice(2)}
-                />
-                $2
-              </RadioLabel>
-              <RadioLabel>
-                <RadioInput
-                  type="radio"
-                  name="price"
-                  value="3"
-                  checked={scratchPrice === 3}
-                  onChange={() => setScratchPrice(3)}
-                />
-                $3
-              </RadioLabel>
-              <RadioLabel>
-                <RadioInput
-                  type="radio"
-                  name="price"
-                  value="5"
-                  checked={scratchPrice === 5}
-                  onChange={() => setScratchPrice(5)}
-                />
-                $5
-              </RadioLabel>
-              <RadioLabel>
-                <RadioInput
-                  type="radio"
-                  name="price"
-                  value="10"
-                  checked={scratchPrice === 10}
-                  onChange={() => setScratchPrice(10)}
-                />
-                $10
-              </RadioLabel>
-              <RadioLabel>
-                <RadioInput
-                  type="radio"
-                  name="price"
-                  value="20"
-                  checked={scratchPrice === 20}
-                  onChange={() => setScratchPrice(20)}
-                />
-                $20
-              </RadioLabel>
-              <RadioLabel>
-                <RadioInput
-                  type="radio"
-                  name="price"
-                  value="30"
-                  checked={scratchPrice === 30}
-                  onChange={() => setScratchPrice(30)}
-                />
-                $30
-              </RadioLabel>
+              {[1, 2, 3, 5, 10, 20, 30].map((option) => (
+                <RadioLabel key={option}>
+                  <RadioInput
+                    type="radio"
+                    name="price"
+                    value={option}
+                    checked={scratchPrice === option}
+                    onChange={() => setScratchPrice(option)}
+                  />
+                  ${option}
+                </RadioLabel>
+              ))}
             </RadioGroup>
             <Button type="submit">Add Scratcher</Button>
           </Form>

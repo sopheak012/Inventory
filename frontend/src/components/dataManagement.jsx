@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { loadScratchers, clearScratchers } from "../features/scratcherSlice";
 import AddScratcherForm from "./AddScratcherForm";
@@ -35,7 +35,7 @@ const DataManagement = () => {
 
   return (
     <div>
-      <h2>Data Management</h2>
+      <h2>Scratcher Management</h2>
       <button onClick={handleShow}>Add Scratcher</button>{" "}
       {/* Button to open the modal */}
       <button onClick={handleSaveScratchers}>Save Scratchers</button>

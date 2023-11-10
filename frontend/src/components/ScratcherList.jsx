@@ -66,10 +66,9 @@ const Heading = styled.h1`
   font-family: "Helvetica Neue", Arial, sans-serif;
 `;
 
-const TodayEarnings = styled.h2`
+const TodayEarnings = styled.h1`
   font-weight: bold;
   margin-top: 20px;
-  font-size: 24px; /* Adjust the font size as needed */
   text-align: center;
 `;
 
@@ -90,13 +89,18 @@ const ScratcherList = () => {
     dispatch(buyScratcher(scratcherID));
   };
 
+  // Filter out scratchers with inventory 0
+  const availableScratchers = scratchers.filter(
+    (scratcher) => scratcher.scratcherAmount > 0
+  );
+
   return (
     <div>
       <TodayEarnings>
         Today's Earnings: ${totalEarning.toFixed(2)}
       </TodayEarnings>
       <Container>
-        {scratchers.map((scratcher) => (
+        {availableScratchers.map((scratcher) => (
           <Card
             key={scratcher.scratcherID}
             onClick={() => {
