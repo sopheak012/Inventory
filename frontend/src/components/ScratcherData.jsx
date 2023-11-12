@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { loadScratchers, clearScratchers } from "../features/scratcherSlice";
 import AddScratcherForm from "./AddScratcherForm";
 
-const DataManagement = () => {
+const ScratcherData = () => {
   const dispatch = useDispatch();
   const scratchers = useSelector((state) => state.scratcher.scratcher);
 
@@ -47,4 +47,4 @@ const DataManagement = () => {
   );
 };
 
-export default DataManagement;
+export default ScratcherData;

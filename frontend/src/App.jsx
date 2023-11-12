@@ -1,11 +1,11 @@
 import ScratcherList from "./components/ScratcherList";
-import DataManagement from "./components/DataManagement";
+import ScratcherData from "./components/ScratcherData";
 
 function App() {
   return (
     <>
       <ScratcherList />
-      <DataManagement />
+      <ScratcherData />
     </>
   );
 }
