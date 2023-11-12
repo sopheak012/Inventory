@@ -105,8 +105,9 @@ const AddScratcherForm = ({ showModal, handleClose }) => {
               type="number"
               id="scratcherNumber"
               value={scratcherNumber}
-              onChange={(e) => setScratcherNumber(e.target.value)}
+              onChange={(e) => setScratcherNumber(parseInt(e.target.value, 10))}
             />
+
             <Label>Scratcher Price:</Label>
             <RadioGroup>
               {[1, 2, 3, 5, 10, 20, 30].map((option) => (

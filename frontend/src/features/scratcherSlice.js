@@ -14,7 +14,7 @@ const scratcherInventory = {
   5: 80,
   10: 50,
   20: 30,
-  30: 20,
+  30: 30,
 };
 
 const scratcherSlice = createSlice({
@@ -25,7 +25,8 @@ const scratcherSlice = createSlice({
       const { scratcherID, name, price, scratcherNumber } = action.payload;
 
       // Determine the scratcherAmount based on the price
-      const scratcherAmount = scratcherInventory[price] || 0;
+      const scratcherAmount = (scratcherInventory[price] - scratcherNumber) || 0;
+      
 
       state.scratcher.push({
         scratcherID,
