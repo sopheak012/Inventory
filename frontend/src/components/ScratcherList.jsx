@@ -114,6 +114,7 @@ const ScratcherList = () => {
               <p>Name: {scratcher.name}</p>
               <p>Price: ${scratcher.price}</p>
               <p>Available: {scratcher.scratcherAmount}</p>
+              <p>Number: {scratcher.scratcherNumber}</p>
             </Content>
           </Card>
         ))}

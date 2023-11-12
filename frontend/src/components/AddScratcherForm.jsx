@@ -55,6 +55,7 @@ const AddScratcherForm = ({ showModal, handleClose }) => {
   const [name, setName] = useState("");
   const [scratchPrice, setScratchPrice] = useState(1); // Default to $1
   const [scratcherID, setScratcherID] = useState("");
+  const [scratcherNumber, setScratcherNumber] = useState(0);
   const [error, setError] = useState(null);
   const dispatch = useDispatch();
 
@@ -66,7 +67,9 @@ const AddScratcherForm = ({ showModal, handleClose }) => {
       return;
     }
 
-    dispatch(addScratcher({ scratcherID, name, price: scratchPrice }));
+    dispatch(
+      addScratcher({ scratcherID, name, price: scratchPrice, scratcherNumber })
+    );
     setName("");
     setScratcherID("");
     setScratchPrice(1);
@@ -96,6 +99,13 @@ const AddScratcherForm = ({ showModal, handleClose }) => {
               id="scratcherID"
               value={scratcherID}
               onChange={(e) => setScratcherID(e.target.value)}
+            />
+            <Label htmlFor="scratcherNumber">Scratcher Number:</Label>
+            <Input
+              type="number"
+              id="scratcherNumber"
+              value={scratcherNumber}
+              onChange={(e) => setScratcherNumber(e.target.value)}
             />
             <Label>Scratcher Price:</Label>
             <RadioGroup>

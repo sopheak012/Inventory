@@ -22,7 +22,7 @@ const scratcherSlice = createSlice({
   initialState: initialScratcherState,
   reducers: {
     addScratcher: (state, action) => {
-      const { scratcherID, name, price } = action.payload;
+      const { scratcherID, name, price, scratcherNumber } = action.payload;
 
       // Determine the scratcherAmount based on the price
       const scratcherAmount = scratcherInventory[price] || 0;
@@ -32,6 +32,7 @@ const scratcherSlice = createSlice({
         name,
         price,
         scratcherAmount,
+        scratcherNumber,
       });
 
       state.totalScratcherCost = state.scratcher.reduce(
@@ -65,6 +66,7 @@ const scratcherSlice = createSlice({
       if (scratchedScratcher) {
         if (scratchedScratcher.scratcherAmount > 0) {
           scratchedScratcher.scratcherAmount -= 1;
+          scratchedScratcher.scratcherNumber += 1;
           state.totalEarning += scratchedScratcher.price;
           state.totalScratcherCost = state.scratcher.reduce(
             (total, scratcher) =>
