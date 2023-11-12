@@ -1,4 +1,3 @@
-import NavBar from "./components/Navbar";
 import ScratcherList from "./components/ScratcherList";
 import DataManagement from "./components/DataManagement";
 
