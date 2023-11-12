@@ -1,4 +1,3 @@
-import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { removeScratcher, buyScratcher } from "../features/scratcherSlice";
 import styled from "styled-components";
